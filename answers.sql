@@ -78,6 +78,25 @@ CREATE USER 'eport'@'localhost' IDENTIFIED BY '7890';
 GRANT SELECT ON BookStore.* TO 'bookstore_report'@'localhost';
 
 
+
+
+
+
+
+
+# Order Management Tables
+
+
+-- Shipping Method
+CREATE TABLE shipping_method (
+    method_id INT PRIMARY KEY AUTO_INCREMENT,
+    method_name VARCHAR(100) NOT NULL,
+    cost DECIMAL(10,2) NOT NULL
+);
+
+-- Order Status
+CREATE TABLE order_status (
+
 -- Country
 CREATE TABLE country (
     country_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -85,10 +104,22 @@ CREATE TABLE country (
 );
 
 -- Address Status
-CREATE TABLE address_status (
+CREATE TABLE address_status(
     status_id INT PRIMARY KEY AUTO_INCREMENT,
     status_value VARCHAR(20) NOT NULL
 );
+
+
+-- Customer Order
+CREATE TABLE cust_order (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    customer_id INT NOT NULL,
+    shipping_address_id INT NOT NULL,
+    method_id INT NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (shipping_address_id) REFERENCES address(address_id),
+    FOREIGN KEY (method_id) REFERENCES shipping_method(method_id)
 
 -- Address
 CREATE TABLE address (
@@ -121,4 +152,5 @@ CREATE TABLE customer_address (
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
     FOREIGN KEY (address_id) REFERENCES address(address_id),
     FOREIGN KEY (status_id) REFERENCES address_status(status_id)
+
 );
