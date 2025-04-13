@@ -77,16 +77,7 @@ CREATE USER 'eport'@'localhost' IDENTIFIED BY '7890';
 -- Grant read-only access to report user
 GRANT SELECT ON BookStore.* TO 'bookstore_report'@'localhost';
 
-
-
-
-
-
-
-
-# Order Management Tables
-
-
+-- Order Management Tables
 -- Shipping Method
 CREATE TABLE shipping_method (
     method_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -100,19 +91,6 @@ CREATE TABLE order_status (
     status_value VARCHAR(20) NOT NULL
 );
 
--- Country
-CREATE TABLE country (
-    country_id INT PRIMARY KEY AUTO_INCREMENT,
-    country_name VARCHAR(100) NOT NULL
-);
-
--- Address Status
-CREATE TABLE address_status(
-    status_id INT PRIMARY KEY AUTO_INCREMENT,
-    status_value VARCHAR(20) NOT NULL
-);
-
-
 -- Customer Order
 CREATE TABLE cust_order (
     order_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -123,6 +101,40 @@ CREATE TABLE cust_order (
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
     FOREIGN KEY (shipping_address_id) REFERENCES address(address_id),
     FOREIGN KEY (method_id) REFERENCES shipping_method(method_id)
+);
+
+-- Order Line
+CREATE TABLE order_line (
+    line_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT NOT NULL,
+    book_id INT NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES cust_order(order_id),
+    FOREIGN KEY (book_id) REFERENCES book(book_id)
+);
+
+-- Order History
+CREATE TABLE order_history (
+    history_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT NOT NULL,
+    status_id INT NOT NULL,
+    status_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES cust_order(order_id),
+    FOREIGN KEY (status_id) REFERENCES order_status(status_id)
+);
+
+-- Customer Management
+-- Country
+CREATE TABLE country (
+    country_id INT PRIMARY KEY AUTO_INCREMENT,
+    country_name VARCHAR(100) NOT NULL
+);
+
+-- Address Status
+CREATE TABLE address_status(
+    status_id INT PRIMARY KEY AUTO_INCREMENT,
+    status_value VARCHAR(20) NOT NULL
 );
 
 -- Address
@@ -156,5 +168,4 @@ CREATE TABLE customer_address (
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
     FOREIGN KEY (address_id) REFERENCES address(address_id),
     FOREIGN KEY (status_id) REFERENCES address_status(status_id)
-
 );
