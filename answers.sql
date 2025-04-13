@@ -96,6 +96,9 @@ CREATE TABLE shipping_method (
 
 -- Order Status
 CREATE TABLE order_status (
+    status_id INT PRIMARY KEY AUTO_INCREMENT,
+    status_value VARCHAR(20) NOT NULL
+);
 
 -- Country
 CREATE TABLE country (
@@ -120,6 +123,7 @@ CREATE TABLE cust_order (
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
     FOREIGN KEY (shipping_address_id) REFERENCES address(address_id),
     FOREIGN KEY (method_id) REFERENCES shipping_method(method_id)
+);
 
 -- Address
 CREATE TABLE address (
