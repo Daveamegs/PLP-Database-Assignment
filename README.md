@@ -57,8 +57,6 @@ Here are the key tables that you'll design and implement for the bookstore datab
 - order_history: A record of the history of an order (e.g., ordered, cancelled, delivered).
 - order_status: A list of possible statuses for an order (e.g., pending, shipped, delivered).
 
-<!-- How to Submit.
-The group leader should create a GitHub repository.
-Deadline: 13/04/2025 11:59 pm EAT
+## Entity Relationship Diagram(ERD)
 
-Submit the GitHub repo link here -->
+![ERD](db-erd.drawio.png)
