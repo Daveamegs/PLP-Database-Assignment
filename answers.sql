@@ -169,3 +169,28 @@ CREATE TABLE customer_address (
     FOREIGN KEY (address_id) REFERENCES address(address_id),
     FOREIGN KEY (status_id) REFERENCES address_status(status_id)
 );
+
+-- Indexing
+
+-- Create indexes on specific columns of the book table
+CREATE INDEX idx_book_title ON book(title);
+CREATE INDEX idx_book_isbn ON book(isbn);
+CREATE INDEX idx_book_language ON book(language_id);
+CREATE INDEX idx_book_publisher ON book(publisher_id);
+
+-- Create indexes on specific columns of the customer table
+CREATE INDEX idx_customer_email ON customer(email);
+CREATE INDEX idx_customer_name ON customer(last_name, first_name);
+
+-- Create indexes on specific columns of the order table
+CREATE INDEX idx_order_customer ON cust_order(customer_id);
+CREATE INDEX idx_order_date ON cust_order(order_date);
+CREATE INDEX idx_order_shipping ON cust_order(shipping_address_id);
+
+-- Create indexes on specific columns of the order line table
+CREATE INDEX idx_orderline_order ON order_line(order_id);
+CREATE INDEX idx_orderline_book ON order_line(book_id);
+
+-- Create indexes on specific columns of the order history table
+CREATE INDEX idx_orderhistory_order ON order_history(order_id);
+CREATE INDEX idx_orderhistory_status ON order_history(status_id);
